@@ -22,7 +22,7 @@ $(document).ready(() => {
   class DeviceData {
     constructor(deviceId) {
       this.deviceId = deviceId;
-      this.maxLen = 50;
+      this.maxLen = 100;
       this.timeData = new Array(this.maxLen);
       this.edgexData = new Array(this.maxLen);
     }
@@ -208,7 +208,18 @@ $(document).ready(() => {
         }
       }
       // hightchart for SensorTemperatureRoom1 only
-      if(messageData.ServiceId == 'SensorTemperatureRoom1') {
+      //if(messageData.ServiceId == 'SensorTemperatureRoom1') {
+      //  chart.setTitle(null, {text: 'ServiceID: ' + messageData.ServiceId + ' | DeviceID : ' + messageData.DeviceId });
+      //  var myEpoch = messageData.CreatedTime;
+      //  var myliveEpoch = new Date().getTime(); //get current epoch time
+      //  var thenum = messageData.Value;
+      //  var plotMqtt = [myEpoch, Number(thenum)]; //create the array
+      //  var plotliveMqtt = [myliveEpoch, Number(thenum)]; //create the array
+      //  plot(plotMqtt, 0);	//send it to the plot function
+      //  plot(plotliveMqtt, 1);	//send it to the plot function
+      //}
+      // hightchart for Serial-Integer-Generator01 only
+      if(messageData.ServiceId == 'Serial-Integer-Generator01') {
         chart.setTitle(null, {text: 'ServiceID: ' + messageData.ServiceId + ' | DeviceID : ' + messageData.DeviceId });
         var myEpoch = messageData.CreatedTime;
         var myliveEpoch = new Date().getTime(); //get current epoch time
