@@ -4,6 +4,7 @@
 
 $(document).ready(() => {
   var chart;
+  var totalmsg = 0;
 
   // if deployed to a site supporting SSL, use wss://
   const protocol = document.location.protocol.startsWith('https') ? 'wss://' : 'ws://';
@@ -106,6 +107,7 @@ $(document).ready(() => {
   chart = new Highcharts.Chart({
       chart: {
           renderTo: 'iotHiChart',
+          zoomType: 'x',
           defaultSeriesType: 'spline'
       },
       title: {
@@ -170,6 +172,7 @@ $(document).ready(() => {
   // 4. Append the telemetry data
   // 5. Update the chart UI
   webSocket.onmessage = function onMessage(message) {
+    totalmsg++;
     try {
       const messageData = JSON.parse(message.data);
       console.log(messageData.MessageDate, messageData.ServiceId, messageData.DeviceId, messageData.Value, messageData.CreatedTime);
@@ -219,8 +222,8 @@ $(document).ready(() => {
       //  plot(plotliveMqtt, 1);	//send it to the plot function
       //}
       // hightchart for Serial-Integer-Generator01 only
-      if(messageData.ServiceId == 'Serial-Integer-Generator01') {
-        chart.setTitle(null, {text: 'ServiceID: ' + messageData.ServiceId + ' | DeviceID : ' + messageData.DeviceId });
+      //if(messageData.ServiceId == 'Serial-Integer-Generator01') {
+        chart.setTitle(null, {text: 'ServiceID: ' + messageData.ServiceId + ' | DeviceID : ' + messageData.DeviceId + ' | TotalMsg : ' + totalmsg });
         var myEpoch = messageData.CreatedTime;
         var myliveEpoch = new Date().getTime(); //get current epoch time
         var thenum = messageData.Value;
@@ -228,7 +231,7 @@ $(document).ready(() => {
         var plotliveMqtt = [myliveEpoch, Number(thenum)]; //create the array
         plot(plotMqtt, 0);	//send it to the plot function
         plot(plotliveMqtt, 1);	//send it to the plot function
-      }
+      //}
 
       myLineChart.update();
     } catch (err) {
